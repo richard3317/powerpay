@@ -1,0 +1,379 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jee="http://www.springframework.org/schema/jee"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc 
+		http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
+		http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/tx 
+		http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+		http://www.springframework.org/schema/jee 
+		http://www.springframework.org/schema/jee/spring-jee-3.0.xsd
+		http://www.springframework.org/schema/context 
+		http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+	<bean name="quartzScheduler"
+		class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="autoStartup">
+			<value>true</value>
+		</property>
+		<property name="triggers">
+			<list>
+				<!-- 
+				<ref bean="dailyRptTrigger" />
+				<ref bean="dataExtractTrigger" />
+				<ref bean="internalAccCheckTrigger" />
+				
+				<ref bean="settleTnLogCreateTrigger" />
+				<ref bean="settleT0LogCreateTrigger" />
+				<ref bean="settleT0ProcTrigger" />
+				<ref bean="settleT0ResCreateTrigger" />
+				<ref bean="agentProfitLogCreateTrigger" />	
+				<ref bean="agentProfitResCreateTrigger" />	
+				<ref bean="TVPayFileChkTrigger" />
+				<ref bean="HongdaFileChkTrigger" />
+				<ref bean="HaikeFileChkTrigger" />
+				<ref bean="HaikeOfflineFileChkTrigger" /> 
+
+				<ref bean="QianhaiFileChkTrigger" />
+				<ref bean="QianhaiWithdrawFileChkTrigger" />
+				
+				<ref bean="D0BalanceTransferTrigger" />
+				<ref bean="D0BalanceTransferChnlTrigger" />
+				<ref bean="T1BalancePreTransferTrigger" />
+				<ref bean="T1BalanceTransferTrigger" />
+				<ref bean="T1BalanceTransferChnlTrigger" />
+				<ref bean="dailyResetTrigger" />
+				<ref bean="dailyProfitSettleTrigger" />
+				<ref bean="dailyProfitResultTrigger" />
+				<ref bean="transRptInfoTrigger" />
+				<ref bean="chnlMchntAccountHourTrigger" />
+				<ref bean="agentProfitQueryCreateTrigger" />
+				<ref bean="currencyQueryTrigger" />
+				-->
+				<ref bean="sysSettleProfitTrigger" />
+				
+				
+			</list>
+		</property>
+	</bean>
+	
+	<!-- 统计数据抽取及日报生成任务触发器: 每天凌晨5点触发 -->
+	<!--  
+	<bean id="dailyRptTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="dailyRptJobDetail" />
+		<property name="cronExpression" value="0 0 5 * * ?" />
+	</bean>
+	<bean id="dailyRptJobDetail"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="dailyRptJob" />
+		<property name="targetMethod" value="singleThreadExec" />
+	</bean>
+	-->
+	<!-- 数据抽取任务触发器: 每天凌晨1点触发 -->
+	<!--  
+	<bean id="dataExtractTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="dataExtractJobDetail" />
+		<property name="cronExpression" value="0 0 1 * * ?" />
+	</bean>
+	<bean id="dataExtractJobDetail"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="dataExtractJob" />
+		<property name="targetMethod" value="singleThreadExec" />
+	</bean>
+	-->
+	<!-- 内部对账任务触发器: 每天凌晨2点触发 -->
+	<!--  
+	<bean id="internalAccCheckTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="internalAccCheckJobDetail" />
+		<property name="cronExpression" value="0 0 2 * * ?" />
+	</bean>
+	<bean id="internalAccCheckJobDetail"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="internalAccCheckJob" />
+		<property name="targetMethod" value="singleThreadExec" />
+	</bean>
+	-->
+	
+	<!-- T+n清算记录创建任务触发器: 每天凌晨3点触发 -->
+	<!-- <bean id="settleTnLogCreateTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="settleTnLogCreateJobDetail" />
+		<property name="cronExpression" value="0 0 3 * * ?" />
+	</bean>
+	<bean id="settleTnLogCreateJobDetail"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="settleTnLogCreateJob" />
+		<property name="targetMethod" value="singleThreadExec" />
+	</bean>
+
+
+	T+0清算记录创建任务触发器: 每2个小时执行一次
+	<bean id="settleT0LogCreateTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="settleT0LogCreateJobDetail" />
+		<property name="cronExpression" value="0 5 0,2,4,6,8,10,12,14,16,18,20,22 * * ?" />
+	</bean>
+	<bean id="settleT0LogCreateJobDetail"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="settleT0LogCreateJob" />
+		<property name="targetMethod" value="singleThreadExec" />
+	</bean>
+	
+	T+0清算处理任务触发器: 每2个小时执行一次
+	<bean id="settleT0ProcTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="settleT0ProcJobDetail" />
+		<property name="cronExpression" value="0 15 0,2,4,6,8,10,12,14,16,18,20,22 * * ?" />
+	</bean>
+	<bean id="settleT0ProcJobDetail"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="settleT0ProcJob" />
+		<property name="targetMethod" value="singleThreadExec" />
+	</bean>
+	
+	T+0划款文件生成任务触发器: 每2个小时执行一次
+	<bean id="settleT0ResCreateTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="settleT0ResCreateJobDetail" />
+		<property name="cronExpression" value="0 45 0,2,4,6,8,10,12,14,16,18,20,22 * * ?" />
+	</bean>
+	<bean id="settleT0ResCreateJobDetail"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="settleT0ResCreateJob" />
+		<property name="targetMethod" value="singleThreadExec" />
+	</bean>
+	
+	
+	代理商分润文件生成任务触发器: 每天凌晨6点触发
+	<bean id="agentProfitLogCreateTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="agentProfitLogCreateJobDetail" />
+		<property name="cronExpression" value="0 0 6 * * ?" />
+	</bean>
+	<bean id="agentProfitLogCreateJobDetail"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="agentProfitLogCreateJob" />
+		<property name="targetMethod" value="singleThreadExec" />
+	</bean>
+	
+		代理商分润划款文件生成任务触发器: 每天凌晨9点触发
+	<bean id="agentProfitResCreateTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="agentProfitResCreateJobDetail" />
+		<property name="cronExpression" value="0 0 9 * * ?" />
+	</bean>
+	<bean id="agentProfitResCreateJobDetail"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="agentProfitResCreateJob" />
+		<property name="targetMethod" value="singleThreadExec" />
+	</bean> -->
+	
+	<!-- 银视通对账任务触发器 ，每天14点触发-->
+	<!-- <bean id="TVPayFileChkTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="TVPayFileChkJobDetail" />
+		<property name="cronExpression" value="0 0 14 * * ?" />
+	</bean>
+	<bean id="TVPayFileChkJobDetail"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="TVPayFileChkJob" />
+		<property name="targetMethod" value="singleThreadExec" />
+	</bean>
+	
+	弘达对账任务触发器 ，每天4点触发
+	<bean id="HongdaFileChkTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="HongdaFileChkJobDetail" />
+		<property name="cronExpression" value="0 0 14 * * ?" />
+	</bean>
+	<bean id="HongdaFileChkJobDetail"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="HongdaFileChkJob" />
+		<property name="targetMethod" value="singleThreadExec" />
+	</bean>
+	
+	海科对账任务触发器 ，每天4点触发
+	<bean id="HaikeFileChkTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="HaikeFileChkJobDetail" />
+		<property name="cronExpression" value="0 0 14 * * ?" />
+	</bean>
+	<bean id="HaikeFileChkJobDetail"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="HaikeFileChkJob" />
+		<property name="targetMethod" value="singleThreadExec" />
+	</bean>
+	
+	海科线下对账任务触发器 ，每天4点触发
+	<bean id="HaikeOfflineFileChkTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="HaikeOfflineFileChkJobDetail" />
+		<property name="cronExpression" value="0 0 14 * * ?" />
+	</bean>
+	<bean id="HaikeOfflineFileChkJobDetail"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="HaikeOfflineFileChkJob" />
+		<property name="targetMethod" value="singleThreadExec" />
+	</bean> -->
+	
+	<!-- 钱海对账任务触发器 ，每天4点触发-->
+	<!--  
+	<bean id="QianhaiFileChkTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="QianhaiFileChkJobDetail" />
+		<property name="cronExpression" value="0 0 2 * * ?" />
+	</bean>
+	<bean id="QianhaiFileChkJobDetail"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="QianhaiFileChkJob" />
+		<property name="targetMethod" value="singleThreadExec" />
+	</bean>
+	-->
+	<!--钱海取现对账-->
+	<!--  
+	<bean id="QianhaiWithdrawFileChkTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="QianhaiWithdrawFileChkJobDetail" />
+		<property name="cronExpression" value="0 0 2 * * ?" />
+	</bean>
+	<bean id="QianhaiWithdrawFileChkJobDetail"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="QianhaiWithdrawFileChkJob" />
+		<property name="targetMethod" value="singleThreadExec" />
+	</bean>
+	-->
+	
+	<!--渠道T1余额结转-->
+	<bean id="T1BalanceTransferChnlTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="T1BalanceTransferChnlJobDetail" />
+		<property name="cronExpression" value="${transfer_trigger_cronExpression}" />
+	</bean>
+	<bean id="T1BalanceTransferChnlJobDetail"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="T1BalanceTransferChnlJob" />
+		<property name="targetMethod" value="singleThreadExec" />
+	</bean>
+	<!--渠道D0余额结转-->
+	<bean id="D0BalanceTransferChnlTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="D0BalanceTransferChnlJobDetail" />
+		<property name="cronExpression" value="${transfer_trigger_cronExpression}" />
+	</bean>
+	<bean id="D0BalanceTransferChnlJobDetail"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="D0BalanceTransferChnlJob" />
+		<property name="targetMethod" value="singleThreadExec" />
+	</bean>
+	<!--T1余额结转-->
+	<bean id="T1BalanceTransferTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="T1BalanceTransferJobDetail" />
+		<property name="cronExpression" value="${transfer_trigger_cronExpression}" />
+	</bean>
+	<bean id="T1BalanceTransferJobDetail"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="T1BalanceTransferJob" />
+		<property name="targetMethod" value="singleThreadExec" />
+	</bean>
+	<!--前置T1余额结转-->
+	<bean id="T1BalancePreTransferTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="T1BalancePreTransferJobDetail" />
+		<property name="cronExpression" value="${transfer_trigger_cronExpression}" />
+	</bean>
+	<bean id="T1BalancePreTransferJobDetail"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="T1BalancePreTransferJob" />
+		<property name="targetMethod" value="singleThreadExec" />
+	</bean>
+	<!--D0余额结转-->
+	<bean id="D0BalanceTransferTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="D0BalanceTransferJobDetail" />
+		<property name="cronExpression" value="${transfer_trigger_cronExpression}" />
+	</bean>
+	<bean id="D0BalanceTransferJobDetail"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="D0BalanceTransferJob" />
+		<property name="targetMethod" value="singleThreadExec" />
+	</bean>
+	
+	<!--DailyReset 每日归零重置-->
+	<bean id="dailyResetTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="dailyResetJobDetail" />
+		<property name="cronExpression" value="${dailyReset_trigger_cronExpression}" />
+	</bean>
+	<bean id="dailyResetJobDetail"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="dailyResetJob" />
+		<property name="targetMethod" value="singleThreadExec" />
+	</bean>	
+	
+	<!-- 每日分润统计与结算 -->
+	<bean id="dailyProfitSettleTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="dailyProfitSettleJobDetail" />
+		<property name="cronExpression" value="${daily_trigger_cronExpression}" />
+	</bean>
+	<bean id="dailyProfitSettleJobDetail"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="dailyProfitSettleJob" />
+		<property name="targetMethod" value="singleThreadExec" />
+	</bean>	
+	
+	<!-- BitPay币别查询，每隔五分钟触发-->
+	<bean id="currencyQueryTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="currencyQueryJobDetail" />
+		<property name="cronExpression" value="0 0/5 * * * ?" />
+	</bean>
+	<bean id="currencyQueryJobDetail"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="currencyQueryJob" />
+		<property name="targetMethod" value="singleThreadExec" />
+	</bean>	
+
+	<!-- 每日财报生成 -->
+	<bean id="dailyProfitResultTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="dailyProfitResultJobDetail" />
+		<property name="cronExpression" value="${daily_profit_result_trigger_cronExpression}" />
+	</bean>
+	<bean id="dailyProfitResultJobDetail"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="dailyProfitResultJob" />
+		<property name="targetMethod" value="singleThreadExec" />
+	</bean>	
+	
+	
+	
+	<!-- 定时查询  tbl_trans_log01~12    和  tbl_mchnt_info  中的数据-->
+	<bean id="transRptInfoTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="transRptInfoDetail" />
+		<property name="cronExpression" value="${rptInfo_trigger_cronExpression}" />
+	</bean>
+	<bean id="transRptInfoDetail"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="transRptInfoJob" />
+		<property name="targetMethod" value="singleThreadExec" />
+	</bean>	
+	
+	<!-- 平台交易量生成任务 -->
+	<bean id="chnlMchntAccountHourTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="chnlMchntAccountHourDetail" />
+		<property name="cronExpression" value="${rptInfo_trigger_cronExpression}" />
+	</bean>
+	<bean id="chnlMchntAccountHourDetail"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="chnlMchntAccountHourJob" />
+		<property name="targetMethod" value="singleThreadExec" />
+	</bean>	
+	
+	<!-- 代理商分润数据生成任务 -->
+	<bean id="agentProfitQueryCreateTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="agentProfitQueryCreateDetail" />
+		<!-- <property name="cronExpression" value="${query_trigger_cronExpression}" />-->
+		<property name="cronExpression" value="${daily_trigger_cronExpression}" />
+	</bean>
+	<bean id="agentProfitQueryCreateDetail"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="agentProfitQueryCreateJob" />
+		<property name="targetMethod" value="singleThreadExec" />
+	</bean>
+	
+	<!-- 自我利润清算生成任务 -->
+	<bean id="sysSettleProfitTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="sysSettleProfitDetail" />
+		<property name="cronExpression" value="${daily_trigger_cronExpression}" />
+	</bean>
+	<bean id="sysSettleProfitDetail"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="sysSettleProfitJob" />
+		<property name="targetMethod" value="singleThreadExec" />
+	</bean>
+	
+</beans>

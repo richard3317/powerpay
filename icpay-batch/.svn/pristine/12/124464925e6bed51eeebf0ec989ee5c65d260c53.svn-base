@@ -1,0 +1,127 @@
+################################
+#   log4j.properties
+################################
+log4j.rootLogger=DEBUG,Publish,STDOUT,all,warn
+log4j.logger.com.icpay.payment=INFO
+lo4j.jdbc.mapper.log.level=WARN
+home.dir=/home/ppay
+log4j.appender.file.path=/home/ppay/icpay/logs/icpay-batch/
+
+###############################
+# log4j.appender.Publish config
+
+log4j.appender.Publish.nodeId=ll.batch.icpay-batch
+log4j.appender.Publish.tags=PROD;BATCH
+
+###############################
+# Ons MQ config
+
+logPublisher.GROUP_ID=GID_PUB_LOG
+logPublisher.topic=TOPIC_PUB_LOG
+logPublisher.tags=prod
+
+seriLogCommiter.GROUP_ID=GID_PUB_LOG
+seriLogCommiter.topic=TOPIC_PUB_LOG
+seriLogCommiter.tags=
+seriLogCommiter.SeriLogUrl=https://tr.power-gateway.com:23443/
+seriLogCommiter.SeriLogApiKey=
+seriLogCommiter.SeriLogConsolePattern=[{Timestamp} {Level}] {Message} ({Operation}){NewLine}{Exception}
+#seriLogCommiter.SeriLogRollingFileName=seriLog-test-{Date}.log
+seriLogCommiter.SeriLogRollingFileName=
+
+################################################
+
+service.port=9999
+com.icpay.payment.service.MerAccService=sr1.pay.svc.pri:9999,sr2.pay.svc.pri:9999,sr3.pay.svc.pri:9999
+#com.icpay.payment.service.ChnlMerAccService=sr1.pay.svc.pri:9999,sr2.pay.svc.pri:9999,sr3.pay.svc.pri:9999
+com.icpay.payment.service.ChnlMerAccService=tc1.pay.svc.pri:9999,tc2.pay.svc.pri:9999,tc3.pay.svc.pri:9999
+com.icpay.payment.service.IcpaySecService=sr1.pay.svc.pri:9999,sr2.pay.svc.pri:9999,sr3.pay.svc.pri:9999
+com.icpay.payment.service.InternalGatewayService=tc1.pay.svc.pri:9999,tc2.pay.svc.pri:9999,tc3.pay.svc.pri:9999
+#icpay_db_url=jdbc:mysql://rm-2ev2072dq2u464669.mysql.rds.aliyuncs.com:3306/icpay
+#mysql-proxy
+#icpay_db_url=jdbc:mysql://batch.pay.svc.pri:3307/icpay?useUnicode=true&amp;characterEncoding=utf8&amp;useSSL=false&amp;autoReconnect=true
+#icpay_db_url=jdbc:mysql://127.0.0.1:3307/icpay?useUnicode=true&amp;characterEncoding=utf8&amp;useSSL=false&amp;autoReconnect=true
+#icpay_db_url=jdbc:mysql://rm-2ev2072dq2u464669.mysql.rds.aliyuncs.com:3306/icpay
+#icpay_db_url=jdbc:mysql://batch.pay.svc.pri:3307/icpay?useUnicode=true&amp;characterEncoding=utf8&amp;useSSL=false&amp;autoReconnect=true
+#icpay_db_url=jdbc:mysql://127.0.0.1:3307/icpay?useUnicode=true&amp;characterEncoding=utf8&amp;useSSL=false&amp;autoReconnect=true
+
+#读写分离
+#icpay_db_url=jdbc:mysql://batch.pay.svc.pri:3306/icpay
+icpay_db_url=jdbc:mysql://rm-2evzr8t1e665g5m9krw.mysql.rds.aliyuncs.com:3306/icpay
+icpay_db_user=lp_user_sys
+icpay_db_passwd=
+db_service_urls=http://127.0.0.1:8080/icpay-db-service
+
+yst_mer_chk_file_path=/home/ppay/icpay/icpay-batch/yst_acct_chk/
+yst_chk_file_charset=GBK
+
+haike_chk_file_path=/home/ppay/icpay/icpay-batch/haike_acct_chk/
+haike_chk_file_charset=UTF-8
+
+haike_offline_chk_file_path=/home/ppay/icpay/icpay-batch/haike_offline_acct_chk/
+haike_offline_chk_file_charset=UTF-8
+
+hongda_chk_file_path=/home/ppay/icpay/icpay-batch/hongda_acct_chk/
+hongda_chk_file_charset=GBK
+
+all_channel_refund_file_path=/home/ppay/icpay/icpay-batch/errfile/
+mer_settle_file_path=/home/ppay/icpay/icpay-batch/merfile/
+settle_file_path=/home/ppay/icpay/icpay-batch/settlefile/
+agent_profit_file_path=/home/ppay/icpay/icpay-batch/agentprofitfile/
+agent_profit_res_file_path=/home/ppay/icpay/icpay-batch/agentprofitresfile/
+agent_check_file_path=/home/ppay/icpay/icpay-batch/agentcheckfile/
+
+jasper_root_dir=/home/ppay/icpay/icpay-batch/rpt/template/
+report_root_dir=/home/ppay/icpay/icpay-batch/rpt/result/
+
+##\u4EA4\u6613\u5BF9\u8D26\u6587\u4EF6\u5730\u5740
+qianhai_chk_file_path=/home/ppay/icpay/icpay-batch/qianhai_acct_chk/
+qianhai_chk_file_charset=GBK
+##\u53D6\u73B0\u5BF9\u8D26\u6587\u4EF6\u5730\u5740
+qianhai_withdra_chk_file_path=/home/ppay/icpay/icpay-batch/qianhai_withdra_acct_chk/
+
+#D0结转T1结转触发时间表示式//每小时02分触发
+#transfer_trigger_cronExpression=00 02 * * * ?
+
+#D0结转T1结转触发时间表示式//每五分钟触发
+transfer_trigger_cronExpression=00 00/10 * * * ?
+
+#每日重置归零作业，时间表示式//每天00:00:00触发
+#dailyReset_trigger_cronExpression=0 0 0 * * ?
+dailyReset_trigger_cronExpression=00 00/10 * * * ?
+
+#每日作业类的触发，时间表示式//每天00:00:00每隔10分钟触发
+daily_trigger_cronExpression=00 00/10 * * * ?
+
+# \u5B9A\u65F6\u67E5\u8BE2  tbl_trans_log01~12    \u548C  tbl_mchnt_info  \u4E2D\u7684\u6570\u636E  (\u4E00\u4E2A\u5C0F\u65F6\u8DD1\u4E00\u6B21)\u6D4B\u8BD5 \u4E00\u5206\u949F\u8DD1\u4E00\u6B21(0 */1 * * * ?)
+#rptInfo_trigger_cronExpression=0 0/1 * * * ?
+rptInfo_trigger_cronExpression=0 0 0-23 * * ?
+
+daily_profit_result_trigger_cronExpression=00 00/10 * * * ?
+
+##\u65F6\u95F4\u5DEE\u5F02
+time_err=900
+
+## 模糊批次日期的日切時間
+fuzzy_day_cut_time=210000
+fuzzy_day_cut_time_t1=230000
+
+
+
+##\u94B1\u6D77\u9ED8\u8BA4\u4F59\u989D\u7ED3\u8F6C\u65F6\u95F4
+qianhai_transfer_date=160000
+##\u7231\u519C\u9ED8\u8BA4\u4F59\u989D\u7ED3\u8F6C\u65F6\u95F4
+ainong_transfer_date=160000
+##\u53CB\u5361\u9ED8\u8BA4\u4F59\u989D\u7ED3\u8F6C\u65F6\u95F4
+youka_transfer_date=160000
+##\u98CE\u4E0A\u9ED8\u8BA4\u4F59\u989D\u7ED3\u8F6C\u65F6\u95F4
+fengshang_transfer_date=160000
+##npay\u9ED8\u8BA4\u4F59\u989D\u7ED3\u8F6C\u65F6\u95F4
+npay_transfer_date=160000
+
+D0_defual_transfer_date=000500
+qianhai_D0_transfer_date=000500
+ainong_D0_transfer_date=000500
+fengshang_D0_transfer_date=000500
+youka_D0_transfer_date=000500
+npay_D0_transfer_date=000500

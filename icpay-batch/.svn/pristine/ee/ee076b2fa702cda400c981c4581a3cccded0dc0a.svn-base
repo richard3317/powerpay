@@ -1,0 +1,5 @@
+#\u670D\u52A1\u7AEF\u53E3
+service.port=${service.port}
+#\u6587\u4EF6\u670D\u52A1
+
+service.list=com.icpay.payment.service.InternalGatewayNotifyService:com.icpay.payment.service.InternalGatewayNotifyServiceImpl,com.icpay.payment.common.data.svc.ProfitWithdrawService:com.icpay.payment.service.ProfitWithdrawServiceImpl,com.icpay.payment.service.CommonSecService,com.icpay.payment.service.MerParamsService,com.icpay.payment.service.FileService
