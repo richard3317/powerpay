@@ -1,0 +1,4 @@
+com.icpay.payment.db.client
+com.icpay.payment.db.dao.mybatis.model
+com.icpay.payment.db.dao.mybatis.model.modelExt
+com.icpay.payment.db.service
