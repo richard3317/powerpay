@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE Configure PUBLIC "-//Jetty//Configure//EN" "http://www.eclipse.org/jetty/configure_9_3.dtd">
+
+<Configure id='wac' class="org.eclipse.jetty.webapp.WebAppContext">
+    <!-- Datasource -->  
+    <New id="icpay" class="org.eclipse.jetty.plus.jndi.Resource">
+        <!-- <Arg><Ref id="Server"/></Arg> -->
+        <!-- <Arg></Arg> -->
+        <Arg>java:comp/env/jdbc/icpay</Arg>
+        <Arg>
+            <New class="com.mysql.jdbc.jdbc2.optional.MysqlConnectionPoolDataSource">
+              <Set name="Url">${icpay_db_url}</Set>
+              <Set name="User">${icpay_db_user}</Set>
+              <Set name="Password">${icpay_db_passwd}</Set>
+            </New>
+        </Arg>
+    </New>
+</Configure>

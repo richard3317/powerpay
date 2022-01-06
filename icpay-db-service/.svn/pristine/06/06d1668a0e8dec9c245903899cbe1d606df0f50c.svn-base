@@ -1,0 +1,525 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.icpay.payment.db.dao.mybatis.mapper.ExtMapper.TxnLogViewExtMapper">
+  <resultMap id="BaseResultMap" type="com.icpay.payment.db.dao.mybatis.model.TxnLogView">
+    <!-- @generateBy com.icpay.data.tests_utils.MapperExtUtil -->
+    <constructor>
+      <arg column="trans_seq_id" javaType="java.lang.String" jdbcType="CHAR"/>
+      <arg column="order_state" javaType="java.lang.String" jdbcType="VARCHAR"/>
+      <arg column="mchnt_cd" javaType="java.lang.String" jdbcType="CHAR"/>
+      <arg column="mchnt_cn_abbr" javaType="java.lang.String" jdbcType="VARCHAR"/>
+      <arg column="order_id" javaType="java.lang.String" jdbcType="VARCHAR"/>
+      <arg column="ext_trans_dt" javaType="java.lang.String" jdbcType="CHAR"/>
+      <arg column="ext_trans_tm" javaType="java.lang.String" jdbcType="CHAR"/>
+      <arg column="ext_actua_txn_dt" javaType="java.lang.String" jdbcType="CHAR"/>
+      <arg column="ext_actua_txn_tm" javaType="java.lang.String" jdbcType="CHAR"/>
+      <arg column="int_trans_cd" javaType="java.lang.String" jdbcType="CHAR"/>
+      <arg column="curr_cd" javaType="java.lang.String" jdbcType="CHAR" />
+      <arg column="trans_at" javaType="java.lang.Long" jdbcType="DECIMAL"/>
+      <arg column="trans_fee" javaType="java.lang.Long" jdbcType="DECIMAL"/>
+      <arg column="trans_fee_chnl" javaType="java.lang.Long" jdbcType="DECIMAL"/>
+      <arg column="trans_fee_delta" javaType="java.lang.Long" jdbcType="DECIMAL"/>
+      <arg column="tx_t0_percent" javaType="java.lang.String" jdbcType="VARCHAR"/>
+      <arg column="tx_t0_percent_chnl" javaType="java.lang.String" jdbcType="VARCHAR"/>
+      <arg column="trans_chnl" javaType="java.lang.String" jdbcType="CHAR"/>
+      <arg column="chnl_mchnt_cd" javaType="java.lang.String" jdbcType="VARCHAR"/>
+      <arg column="chnl_mchnt_desc" javaType="java.lang.String" jdbcType="VARCHAR"/>
+      <arg column="chnl_order_id" javaType="java.lang.String" jdbcType="VARCHAR"/>
+      <arg column="chnl_order_time" javaType="java.lang.String" jdbcType="CHAR"/>
+      <arg column="chnl_trans_id" javaType="java.lang.String" jdbcType="VARCHAR"/>
+      <arg column="rsp_cd" javaType="java.lang.String" jdbcType="VARCHAR"/>
+      <arg column="err_msg" javaType="java.lang.String" jdbcType="VARCHAR"/>
+      <arg column="txn_state" javaType="java.lang.String" jdbcType="CHAR"/>
+      <arg column="txn_state_msg" javaType="java.lang.String" jdbcType="VARCHAR"/>
+      <arg column="chnl_txn_state_cd" javaType="java.lang.String" jdbcType="VARCHAR"/>
+      <arg column="chnl_txn_state_msg" javaType="java.lang.String" jdbcType="VARCHAR"/>
+      <arg column="chnl_resp_cd" javaType="java.lang.String" jdbcType="VARCHAR"/>
+      <arg column="chnl_resp_msg" javaType="java.lang.String" jdbcType="VARCHAR"/>
+      <arg column="req_ip" javaType="java.lang.String" jdbcType="VARCHAR"/>
+      <arg column="txn_src" javaType="java.lang.String" jdbcType="VARCHAR"/>
+      <arg column="acc_no" javaType="java.lang.String" jdbcType="VARCHAR"/>
+      <arg column="acc_name" javaType="java.lang.String" jdbcType="VARCHAR"/>
+      <arg column="bank_num" javaType="java.lang.String" jdbcType="VARCHAR"/>
+      <arg column="bank_name" javaType="java.lang.String" jdbcType="VARCHAR"/>
+      <arg column="tags" javaType="java.lang.String" jdbcType="VARCHAR"/>
+      <arg column="rec_crt_ts" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+      <arg column="rec_upd_ts" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+      <arg column="user_id" javaType="java.lang.String" jdbcType="VARCHAR"/>
+      <arg column="unit" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+      <arg column="ex_amount" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+      <arg column="ex_currency" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="ex_unit" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+      <arg column="ex_txn_id" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="ex_address" javaType="java.lang.String" jdbcType="VARCHAR" />
+    </constructor>
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <!-- @generateBy com.icpay.data.tests_utils.MapperExtUtil -->
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    <!-- @generateBy com.icpay.data.tests_utils.MapperExtUtil -->
+    `trans_seq_id`, `order_state`, `mchnt_cd`, `mchnt_cn_abbr`, `order_id`, `ext_trans_dt`, 
+    `ext_trans_tm`, `ext_actua_txn_dt`, `ext_actua_txn_tm`, `int_trans_cd`, `curr_cd`, 
+    `trans_at`, `trans_fee`, `trans_fee_chnl`, `trans_fee_delta`, `tx_t0_percent`, `tx_t0_percent_chnl`, 
+    `trans_chnl`, `chnl_mchnt_cd`, `chnl_mchnt_desc`, `chnl_order_id`, `chnl_order_time`, 
+    `chnl_trans_id`, `rsp_cd`, `err_msg`, `txn_state`, `txn_state_msg`, `chnl_txn_state_cd`, 
+    `chnl_txn_state_msg`, `chnl_resp_cd`, `chnl_resp_msg`, `req_ip`, `txn_src`, `acc_no`, 
+    `acc_name`, `bank_num`, `bank_name`, `tags`, `rec_crt_ts`, `rec_upd_ts`,`user_id`,
+    `unit`, `ex_amount`, `ex_currency`, `ex_unit`, `ex_txn_id`, `ex_address`
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap">
+    <!-- @generateBy com.icpay.data.tests_utils.MapperExtUtil -->
+    select
+    <if test="(example != null) and example.distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List"/>
+    from `view_txn_log_${mon}`
+    <if test="example != null">
+      <include refid="Example_Where_Clause"/>
+    </if>
+    <if test="(example != null) and (example.orderByClause != null)">
+      order by ${example.orderByClause}
+    </if>
+  </select>
+  <select id="countByExample" resultType="java.lang.Long">
+    <!-- @generateBy com.icpay.data.tests_utils.MapperExtUtil -->
+    select count(*) from `view_txn_log_${mon}`
+    <if test="example != null">
+      <include refid="Example_Where_Clause"/>
+    </if>
+  </select>
+  <select id="selectByPage" resultMap="BaseResultMap">
+    <!-- @generateBy com.icpay.data.tests_utils.MapperExtUtil -->
+    select
+    <if test="(example != null) and example.distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List"/>
+    from `view_txn_log_${mon}`
+    <if test="example != null">
+      <include refid="Example_Where_Clause"/>
+    </if>
+    <if test="(example != null) and (example.orderByClause != null)">
+      order by ${example.orderByClause}
+    </if>
+    <if test="(example != null) and (example.startNum != null) and (example.pageSize !=null)">
+      limit #{example.startNum} , #{example.pageSize}
+    </if>
+  </select>
+  
+  <!-- 以下手动新增 -->
+  <resultMap id="SummaryResultMap" type="com.icpay.payment.db.dao.mybatis.model.modelExt.TxnLogSummary">
+    <constructor>
+      <arg column="rec_count" javaType="java.lang.Long" jdbcType="DECIMAL"/>
+      <arg column="sum_trans_at" javaType="java.lang.Long" jdbcType="DECIMAL"/>
+      <arg column="sum_trans_fee" javaType="java.lang.Long" jdbcType="DECIMAL"/>
+      <arg column="sum_trans_fee_chnl" javaType="java.lang.Long" jdbcType="DECIMAL"/>
+      <arg column="sum_trans_fee_deltal" javaType="java.lang.Long" jdbcType="DECIMAL"/>
+      <arg column="sum_ex_amount" javaType="java.math.BigDecimal" jdbcType="DECIMAL"/>
+    </constructor>
+  </resultMap>
+  
+  <select id="selectSummary"  resultMap="SummaryResultMap" >
+  	select 
+  		COUNT(*) as rec_count ,
+  		SUM(`trans_at`) as sum_trans_at ,
+  		SUM(`trans_fee`) as sum_trans_fee ,
+  		SUM(`trans_fee_chnl`) as sum_trans_fee_chnl ,
+  		SUM(`trans_fee_delta`) as sum_trans_fee_deltal ,
+  		SUM(`ex_amount`) as sum_ex_amount
+  	from `view_txn_log_${mon}`
+    <if test="example != null">
+      <include refid="Example_Where_Clause"/>
+    </if>    
+  </select>
+   <!-- 以下手动新增 -->
+  <select id="selecttransFeeDelta" resultType="String" >
+  	select 
+  		SUM(`trans_fee_delta`) as sum_trans_fee_deltal
+  	from `view_txn_log_${mon}`
+  	<if test="example != null">
+      <include refid="Example_Where_Clause"/>
+    </if> 
+    and `txn_state`=10
+  </select>
+  
+  <resultMap id="AgentProfitQueryResultMap" type="com.icpay.payment.db.dao.mybatis.model.modelExt.TxnLogProfitQuery">
+    <constructor>
+      <arg column="int_trans_cd" javaType="java.lang.String" jdbcType="CHAR"/>
+      <arg column="mchnt_cd" javaType="java.lang.String" jdbcType="CHAR"/>
+      <arg column="trans_chnl" javaType="java.lang.String" jdbcType="CHAR"/>
+      <arg column="chnl_mchnt_cd" javaType="java.lang.String" jdbcType="VARCHAR"/>
+      <arg column="txn_amt_sum" javaType="java.lang.Long" jdbcType="DECIMAL"/>
+    </constructor>
+  </resultMap>
+
+  <select id="selectForAgentProfitQueryCreateTaske" resultMap="AgentProfitQueryResultMap">
+	select 
+	<choose>
+        <when test="intTransCd == '*'.toString()">
+            '*' as int_trans_cd,
+        </when>
+        <otherwise>
+            int_trans_cd,
+        </otherwise>
+    </choose>
+    <choose>
+        <when test="mchntCd == '*'.toString()">
+            '*' as mchnt_cd, 
+        </when>
+        <otherwise>
+            mchnt_cd,
+        </otherwise>
+    </choose>
+    <choose>
+        <when test="chnlId == '*'.toString()">
+            '*' as trans_chnl,
+        </when>
+        <otherwise>
+            trans_chnl,
+        </otherwise>
+    </choose>
+    <choose>
+        <when test="chnlMchntCd == '*'.toString()">
+            '*' as chnl_mchnt_cd, 
+        </when>
+        <otherwise>
+            chnl_mchnt_cd,
+        </otherwise>
+    </choose>
+    ifnull( sum(trans_at), 0 ) as txn_amt_sum
+    from view_txn_log_${mon}
+    where txn_state = '10' 
+    <if test="intTransCd != '*'.toString()">
+		and int_trans_cd = #{intTransCd}
+  	</if>
+  	<if test="mchntCd != '*'.toString()">
+		and mchnt_cd = #{mchntCd}
+  	</if>
+  	<if test="chnlId != '*'.toString()">
+		and trans_chnl = #{chnlId}
+  	</if>
+  	<if test="chnlMchntCd != '*'.toString()">
+		and chnl_mchnt_cd = #{chnlMchntCd}
+  	</if>
+  	and rec_upd_ts &gt;= #{beginDate} 
+    and rec_upd_ts &lt; #{endDat}
+  	group by int_trans_cd
+  </select>
+  
+  <resultMap id="SysSettleProfitSummaryResultMap" type="com.icpay.payment.db.dao.mybatis.model.modelExt.TxnLogSysSettleProfit">
+    <constructor>
+      <arg column="rec_upd_ts" javaType="java.lang.String" jdbcType="CHAR"/>
+      <arg column="mchnt_cd" javaType="java.lang.String" jdbcType="CHAR"/>
+      <arg column="trans_chnl" javaType="java.lang.String" jdbcType="CHAR"/>
+      <arg column="chnl_mchnt_cd" javaType="java.lang.String" jdbcType="VARCHAR"/>
+      <arg column="curr_cd" javaType="java.lang.String" jdbcType="CHAR" />
+      <arg column="unit" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+      <arg column="sum_trans_fee_delta" javaType="java.lang.Long" jdbcType="DECIMAL"/>
+    </constructor>
+  </resultMap>
+  
+  <select id="selectSysSettleProfitSummary"  resultMap="SysSettleProfitSummaryResultMap" >
+  	SELECT
+		`rec_upd_ts`,
+		`mchnt_cd`,
+		`trans_chnl`,
+		`chnl_mchnt_cd`,
+		`curr_cd`,
+		`unit`,
+		SUM( `trans_fee_delta` ) AS sum_trans_fee_delta 
+	FROM
+		`view_txn_log_${mon}`
+	WHERE
+		`txn_state` = '10' 
+	AND `rec_upd_ts` &gt;= #{startDate} 
+    AND `rec_upd_ts` &lt;= #{endDate}
+	GROUP BY
+		SUBSTR(`rec_upd_ts`,1 ,10),
+		`mchnt_cd`,
+		`trans_chnl`,
+		`chnl_mchnt_cd`,
+		`curr_cd`
+	ORDER BY
+		`rec_upd_ts`;
+  </select>
+  
+  <select id="countAllOrderId" resultType="java.lang.Long">
+  	SELECT COUNT(*) FROM
+  	(SELECT
+  	<if test="(example != null) and example.distinct">
+      DISTINCT
+    </if>
+  	<include refid="Base_Column_List"/>
+  	FROM `view_txn_log_${mon}`
+	<if test="example != null">
+      <include refid="Example_Where_Clause"/>
+    </if> 
+	AND (`trans_seq_id` LIKE #{allOrderId}
+	OR `order_id` LIKE #{allOrderId}
+	OR `chnl_order_id` LIKE #{allOrderId})
+	UNION ALL
+	SELECT
+	<if test="(example != null) and example.distinct">
+      DISTINCT
+    </if>
+  	<include refid="Base_Column_List"/>
+  	FROM `view_txn_log_${mon1}`
+	<if test="example != null">
+      <include refid="Example_Where_Clause"/>
+    </if> 
+	AND (`trans_seq_id` LIKE #{allOrderId}
+	OR `order_id` LIKE #{allOrderId}
+	OR `chnl_order_id` LIKE #{allOrderId})
+	UNION ALL
+	SELECT
+	<if test="(example != null) and example.distinct">
+      DISTINCT
+    </if>
+  	<include refid="Base_Column_List"/>
+  	FROM `view_txn_log_${mon2}`
+	<if test="example != null">
+      <include refid="Example_Where_Clause"/>
+    </if> 
+	AND (`trans_seq_id` LIKE #{allOrderId}
+	OR `order_id` LIKE #{allOrderId}
+	OR `chnl_order_id` LIKE #{allOrderId})
+    ) AS view;
+  </select>
+  
+  <select id="selectAllOrderId" resultMap="BaseResultMap">
+  	SELECT
+  	<if test="(example != null) and example.distinct">
+      DISTINCT
+    </if>
+  	<include refid="Base_Column_List"/>
+  	FROM `view_txn_log_${mon}`
+	<if test="example != null">
+      <include refid="Example_Where_Clause"/>
+    </if> 
+	AND (`trans_seq_id` LIKE #{allOrderId}
+	OR `order_id` LIKE #{allOrderId}
+	OR `chnl_order_id` LIKE #{allOrderId})
+	UNION ALL
+	SELECT
+	<if test="(example != null) and example.distinct">
+      DISTINCT
+    </if>
+  	<include refid="Base_Column_List"/>
+  	FROM `view_txn_log_${mon1}`
+	<if test="example != null">
+      <include refid="Example_Where_Clause"/>
+    </if> 
+	AND (`trans_seq_id` LIKE #{allOrderId}
+	OR `order_id` LIKE #{allOrderId}
+	OR `chnl_order_id` LIKE #{allOrderId})
+	UNION ALL
+	SELECT
+	<if test="(example != null) and example.distinct">
+      DISTINCT
+    </if>
+  	<include refid="Base_Column_List"/>
+  	FROM `view_txn_log_${mon2}`
+	<if test="example != null">
+      <include refid="Example_Where_Clause"/>
+    </if> 
+	AND (`trans_seq_id` LIKE #{allOrderId}
+	OR `order_id` LIKE #{allOrderId}
+	OR `chnl_order_id` LIKE #{allOrderId})
+    <if test="(example != null) and (example.orderByClause != null)">
+      ORDER BY ${example.orderByClause}
+    </if>
+    <if test="(example != null) and (example.startNum != null) and (example.pageSize !=null)">
+      LIMIT #{example.startNum} , #{example.pageSize}
+    </if>
+  </select>
+  
+  <select id="countChnlMchntDaily" resultType="java.lang.Long">
+	SELECT COUNT(*) FROM
+	  (SELECT Substr(v.rec_upd_ts, 1, 10)                   AS rec_upd_ts,
+		       v.mchnt_cd,
+		       v.trans_chnl                                  AS chnl_id,
+		       v.chnl_mchnt_cd,
+		       v.curr_cd,
+		       Sum(v.trans_at)                               AS trans_at,
+		       Ifnull((SELECT Sum(trans_at) AS trans_at
+		               FROM   view_txn_log_${mon} zhifu
+		               WHERE  zhifu.mchnt_cd = v.mchnt_cd
+		                      AND zhifu.trans_chnl = v.trans_chnl
+		                      AND zhifu.chnl_mchnt_cd = v.chnl_mchnt_cd
+		                      AND zhifu.curr_cd = v.curr_cd
+		                      AND txn_state = '10'
+		                      AND rec_upd_ts &gt;= #{startDate} 
+		       				  AND rec_upd_ts &lt;= #{endDate}
+		                      AND int_trans_cd &lt;&gt; '5210'
+		               GROUP  BY Substr(rec_upd_ts, 1, 10),
+		                         mchnt_cd,
+		                         trans_chnl,
+		                         chnl_mchnt_cd,
+		                         curr_cd,
+		                         int_trans_cd &lt;&gt; '5210'), 0) AS zhifu_trans_at,
+		       Ifnull((SELECT Sum(trans_at) AS trans_at
+		               FROM   view_txn_log_${mon} daifu
+		               WHERE  daifu.mchnt_cd = v.mchnt_cd
+		                      AND daifu.trans_chnl = v.trans_chnl
+		                      AND daifu.chnl_mchnt_cd = v.chnl_mchnt_cd
+		                      AND daifu.curr_cd = v.curr_cd
+		                      AND txn_state = '10'
+		                      AND rec_upd_ts &gt;= #{startDate} 
+		       				  AND rec_upd_ts &lt;= #{endDate}
+		                      AND int_trans_cd = '5210'
+		               GROUP  BY Substr(rec_upd_ts, 1, 10),
+		                         mchnt_cd,
+		                         trans_chnl,
+		                         chnl_mchnt_cd,
+		                         curr_cd,
+		                         int_trans_cd), 0)           AS daifu_trans_at,
+		       (SELECT mflow.frozen_balance
+		        FROM   (SELECT flow.mchnt_cd,
+		                       flow.frozen_balance,
+		                       flow.curr_cd,
+		                       flow.rec_upd_ts,
+		                       flow2.maxtime
+		                FROM   tbl_chnl_mchnt_account_flow${mon} flow,
+		                       (SELECT mchnt_cd,
+		                               curr_cd,
+		                               Max(rec_upd_ts) AS maxTime
+		                        FROM   tbl_chnl_mchnt_account_flow${mon}
+		                        WHERE  chnl_id = '00'
+		                        GROUP  BY chnl_id,
+		                                  mchnt_cd,
+		                                  curr_cd) flow2
+		                WHERE  flow.mchnt_cd = flow2.mchnt_cd
+		                       AND flow.rec_upd_ts = flow2.maxtime
+		                       AND flow.curr_cd = flow2.curr_cd) mflow
+		        WHERE  mflow.mchnt_cd = v.mchnt_cd
+		               AND mflow.curr_cd = v.curr_cd)        AS frozen_balance
+		FROM   view_txn_log_${mon} v
+		WHERE  txn_state = '10'
+		       AND rec_upd_ts &gt;= #{startDate} 
+		       AND rec_upd_ts &lt;= #{endDate}
+		GROUP  BY Substr(rec_upd_ts, 1, 10),
+		          mchnt_cd,
+		          trans_chnl,
+		          chnl_mchnt_cd,
+		          curr_cd) AS count
+  </select>
+  
+  <resultMap id="selectChnlMchntDailyMap" type="com.icpay.payment.db.dao.mybatis.model.modelExt.ChnlMchntDaily">
+    <constructor>
+      <arg column="rec_upd_ts" javaType="java.lang.String" jdbcType="CHAR"/>
+      <arg column="mchnt_cd" javaType="java.lang.String" jdbcType="CHAR"/>
+      <arg column="chnl_id" javaType="java.lang.String" jdbcType="CHAR"/>
+      <arg column="chnl_mchnt_cd" javaType="java.lang.String" jdbcType="VARCHAR"/>
+      <arg column="curr_cd" javaType="java.lang.String" jdbcType="CHAR" />
+      <arg column="trans_at" javaType="java.lang.Long" jdbcType="DECIMAL"/>
+      <arg column="zhifu_trans_at" javaType="java.lang.Long" jdbcType="DECIMAL"/>
+      <arg column="daifu_trans_at" javaType="java.lang.Long" jdbcType="DECIMAL"/>
+      <arg column="frozen_balance" javaType="java.lang.Long" jdbcType="DECIMAL"/>
+    </constructor>
+  </resultMap>
+  
+  <select id="selectChnlMchntDaily" resultMap="selectChnlMchntDailyMap" >
+  	SELECT Substr(v.rec_upd_ts, 1, 10)                   AS rec_upd_ts,
+	       v.mchnt_cd,
+	       v.trans_chnl                                  AS chnl_id,
+	       v.chnl_mchnt_cd,
+	       v.curr_cd,
+	       Sum(v.trans_at)                               AS trans_at,
+	       Ifnull((SELECT Sum(trans_at) AS trans_at
+	               FROM   view_txn_log_${mon} zhifu
+	               WHERE  zhifu.mchnt_cd = v.mchnt_cd
+	                      AND zhifu.trans_chnl = v.trans_chnl
+	                      AND zhifu.chnl_mchnt_cd = v.chnl_mchnt_cd
+	                      AND zhifu.curr_cd = v.curr_cd
+	                      AND txn_state = '10'
+	                      AND rec_upd_ts &gt;= #{startDate} 
+	       				  AND rec_upd_ts &lt;= #{endDate}
+	                      AND int_trans_cd &lt;&gt; '5210'
+	               GROUP  BY Substr(rec_upd_ts, 1, 10),
+	                         mchnt_cd,
+	                         trans_chnl,
+	                         chnl_mchnt_cd,
+	                         curr_cd,
+	                         int_trans_cd &lt;&gt; '5210'), 0) AS zhifu_trans_at,
+	       Ifnull((SELECT Sum(trans_at) AS trans_at
+	               FROM   view_txn_log_${mon} daifu
+	               WHERE  daifu.mchnt_cd = v.mchnt_cd
+	                      AND daifu.trans_chnl = v.trans_chnl
+	                      AND daifu.chnl_mchnt_cd = v.chnl_mchnt_cd
+	                      AND daifu.curr_cd = v.curr_cd
+	                      AND txn_state = '10'
+	                      AND rec_upd_ts &gt;= #{startDate} 
+	       				  AND rec_upd_ts &lt;= #{endDate}
+	                      AND int_trans_cd = '5210'
+	               GROUP  BY Substr(rec_upd_ts, 1, 10),
+	                         mchnt_cd,
+	                         trans_chnl,
+	                         chnl_mchnt_cd,
+	                         curr_cd,
+	                         int_trans_cd), 0)           AS daifu_trans_at,
+	       (SELECT mflow.frozen_balance
+	        FROM   (SELECT flow.mchnt_cd,
+	                       flow.frozen_balance,
+	                       flow.curr_cd,
+	                       flow.rec_upd_ts,
+	                       flow2.maxtime
+	                FROM   tbl_chnl_mchnt_account_flow${mon} flow,
+	                       (SELECT mchnt_cd,
+	                               curr_cd,
+	                               Max(rec_upd_ts) AS maxTime
+	                        FROM   tbl_chnl_mchnt_account_flow${mon}
+	                        WHERE  chnl_id = '00'
+	                        GROUP  BY chnl_id,
+	                                  mchnt_cd,
+	                                  curr_cd) flow2
+	                WHERE  flow.mchnt_cd = flow2.mchnt_cd
+	                       AND flow.rec_upd_ts = flow2.maxtime
+	                       AND flow.curr_cd = flow2.curr_cd) mflow
+	        WHERE  mflow.mchnt_cd = v.mchnt_cd
+	               AND mflow.curr_cd = v.curr_cd)        AS frozen_balance
+	FROM   view_txn_log_${mon} v
+	WHERE  txn_state = '10'
+	       AND rec_upd_ts &gt;= #{startDate} 
+	       AND rec_upd_ts &lt;= #{endDate}
+	GROUP  BY Substr(rec_upd_ts, 1, 10),
+	          mchnt_cd,
+	          trans_chnl,
+	          chnl_mchnt_cd,
+	          curr_cd
+	ORDER  BY trans_chnl,
+	          chnl_mchnt_cd,
+	          mchnt_cd
+	<if test="(example != null) and (example.startNum != null) and (example.pageSize !=null)">
+      LIMIT #{example.startNum} , #{example.pageSize}
+    </if>
+  </select>
+</mapper>

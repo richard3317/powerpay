@@ -1,0 +1,5 @@
+com.icpay.payment.db.dao.mybatis.mapper
+com.icpay.payment.db.dao.mybatis.mapper.ExtMapper
+com.icpay.payment.db.service.exporter
+com.icpay.payment.db.service.impl
+com.icpay.payment.service.listener

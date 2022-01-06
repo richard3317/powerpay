@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+    <!-- 定义 Api keys ; -->
+    <!-- <context:property-placeholder />  --> <!-- placeholder -->
+    <import resource="file:${HOME}/icpay/libs/config/osn-mq-seq-logger-api-keys.xml" />
+
+    <bean id="producersMap" class="java.util.HashMap">
+        <constructor-arg>
+            <map key-type="java.lang.String" value-type="com.icpay.payment.service.mq.IProducer">
+                <entry key="logPublisher" value-ref= "logPublisher" />
+            </map>
+        </constructor-arg>
+    </bean>
+
+    <bean id="consumersMap" class="java.util.HashMap">
+        <constructor-arg>
+            <map key-type="java.lang.String" value-type="com.icpay.payment.service.mq.IConsumer">
+                <entry key="seriLogCommiter" value-ref= "seriLogCommiter" />
+            </map>
+        </constructor-arg>
+    </bean>
+
+    <bean id="logPublisher" class="com.icpay.payment.service.mq.impl.logger.LogPublisher"
+          destroy-method="shutdown">
+        <property name="properties"> <!--生产者配置信息-->
+            <props>
+                <prop key="AccessKey">${sp_ons_AccessKey}</prop>
+                <prop key="SecretKey">${sp_ons_SecretKey}</prop>
+                <prop key="NAMESRV_ADDR">${sp_ons_NAMESRV_ADDR}</prop>
+                <prop key="GROUP_ID">GID_PUBLOGA_TEST</prop>
+                <prop key="topic">TOPIC_PUBLOGA_TEST</prop>
+                <prop key="tags">test</prop>
+            </props>
+        </property>
+    </bean>
+
+    <!--
+    <bean id="consoleLogCommiter" class="com.icpay.payment.service.mq.impl.logger.ConsoleLogCommiter"
+          destroy-method="shutdown">
+        <property name="properties">
+            <props>
+                <prop key="AccessKey">${sp_ons_AccessKey}</prop>
+                <prop key="SecretKey">${sp_ons_SecretKey}</prop>
+                <prop key="NAMESRV_ADDR">${sp_ons_NAMESRV_ADDR}</prop>
+                <prop key="GROUP_ID">${consoleLogCommiter.GROUP_ID}</prop>
+                <prop key="topic">${consoleLogCommiter.topic}</prop>
+                <prop key="tags">${consoleLogCommiter.tags}</prop>
+            </props>
+        </property>
+    </bean>
+    -->
+
+    <bean id="seriLogCommiter" class="com.icpay.payment.service.mq.impl.logger.SeriLogCommiter"
+          destroy-method="shutdown">
+        <property name="apiKeysMap" ref="apiKeysMap"/>
+        <property name="properties">
+            <props>
+                <prop key="AccessKey">${sp_ons_AccessKey}</prop>
+                <prop key="SecretKey">${sp_ons_SecretKey}</prop>
+                <prop key="NAMESRV_ADDR">${sp_ons_NAMESRV_ADDR}</prop>
+                <prop key="GROUP_ID">GID_PUBLOGA_TEST</prop>
+                <prop key="topic">TOPIC_PUBLOGA_TEST</prop>
+                <prop key="tags"></prop>
+                <prop key="MessageModel">CLUSTERING</prop> <!-- 每個消息只會被消費一次 -->
+                <!-- <prop key="MessageModel">BROADCASTING</prop> --> <!-- 每個消費者都會收到相同的消息 -->
+
+				<prop key="SeriLogUrl">http://161.117.189.57:5341/</prop>
+				<prop key="SeriLogApiKey"></prop>
+				<prop key="SeriLogConsolePattern">[{Timestamp} {Level}] {Message} ({Operation}){NewLine}{Exception}</prop>
+				<prop key="SeriLogRollingFileName"></prop>
+
+            </props>
+        </property>
+    </bean>
+
+
+
+<!--
+    <bean id="onsMqManager" class="com.icpay.payment.service.mq.OnsMqManager" init-method="start"
+          destroy-method="shutdown">
+        <property name="producers" ref="producersMap"/>
+        <property name="consumers" ref="consumersMap"/>
+    </bean>
+-->
+
+</beans>
