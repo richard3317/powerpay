@@ -1,0 +1,202 @@
+package com.icpay.payment.bm.web.controller.business;
+
+import java.util.Map;
+
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.icpay.payment.bm.bo.BusCheckBO;
+import com.icpay.payment.bm.cache.ChnlMchntInfoCache;
+import com.icpay.payment.bm.cache.MchntInfoCache;
+import com.icpay.payment.bm.constants.BMConstants;
+import com.icpay.payment.bm.web.controller.BaseController;
+import com.icpay.payment.bm.web.interceptor.QryMethod;
+import com.icpay.payment.common.entity.AjaxResult;
+import com.icpay.payment.common.entity.IEntityTransfer;
+import com.icpay.payment.common.entity.Pager;
+import com.icpay.payment.common.enums.BmEnums;
+import com.icpay.payment.common.enums.BusCheckTaskEnums;
+import com.icpay.payment.common.enums.CommonEnums;
+import com.icpay.payment.common.enums.TxnEnums;
+import com.icpay.payment.common.utils.AssertUtil;
+import com.icpay.payment.common.utils.EnumUtil;
+import com.icpay.payment.common.utils.StringUtil;
+import com.icpay.payment.common.utils.Utils;
+import com.icpay.payment.db.dao.mybatis.model.TxnRouting;
+import com.icpay.payment.db.dao.mybatis.model.TxnRoutingKey;
+import com.icpay.payment.db.dao.mybatis.model.TxnRouting_Mapping;
+import com.icpay.payment.db.service.ITxnRoutingService;
+
+/**
+ * @author 作者 : wangyi
+ * @date 创建时间：2018年3月17日 下午5:45:47
+ * @version 1.0
+ * @parameter
+ * @since
+ * @return
+ */
+@Controller
+@RequestMapping("/routDaifu")
+public class RoutDaifuController extends BaseController {
+
+	private static final Logger logger = Logger.getLogger(RoutDaifuController.class);
+
+	private static final String RESULT_BASE_URI = "routDaifu";
+
+	@Autowired
+	private BusCheckBO busCheckBO;
+
+	private static final IEntityTransfer ENTITY_TRANSFER = new IEntityTransfer() {
+		@Override
+		public void transfer(Map<String, String> m) {
+
+			String chnlId = m.get("chnlId");
+			m.put("chnlIdDesc", EnumUtil.translate(TxnEnums.ChnlId.class, chnlId, true));
+			
+			String mchntCd=m.get("mchntCd");
+			Map<String,String> mchnt = MchntInfoCache.getInstance().get(mchntCd);
+			if (!Utils.isEmpty(mchnt)) {
+				String mchntDesc = mchnt.get("mchntCnNm");
+				m.put("mchntDesc", mchntDesc);
+			}
+			
+			String chnlMchntCd=m.get("chnlMchntCd");
+			Map<String,String> chnlMchnt = ChnlMchntInfoCache.getInstance().get(chnlId, chnlMchntCd);
+			if (!Utils.isEmpty(chnlMchnt)) {
+				String chnlMchntDesc = chnlMchnt.get("chnlMchntDesc");
+				m.put("chnlMchntDesc", chnlMchntDesc);
+			}
+
+			String intTransCd = m.get("intTransCd");
+			m.put("intTransCdDesc", EnumUtil.translate(TxnEnums.TxnType.class, intTransCd, true));
+
+			String status = m.get("status");
+			if("0".equals(status)){
+				m.put("statusDesc",status+"-无效" );
+			}else if("1".equals(status)){
+				m.put("statusDesc",status+"-有效" );
+			}
+			String txAmtMin = m.get("txAmtMin");
+			m.put("txAmtMinDesc", StringUtil.formateAmt(txAmtMin));
+			
+			String txAmtMax = m.get("txAmtMax");
+			m.put("txAmtMaxDesc", StringUtil.formateAmt(txAmtMax));
+			
+			String txDayMax = m.get("txDayMax");
+			m.put("txDayMaxDesc", StringUtil.formateAmt(txDayMax));
+			
+			String txCardDayMax = m.get("txCardDayMax");
+			m.put("txCardDayMaxDesc", StringUtil.formateAmt(txCardDayMax));
+			
+		}
+	};
+
+	// 代付路由管理----------------------
+	@RequestMapping(value = "/manage.do", method = RequestMethod.GET)
+	public String manage(Model model) {
+		if (logger.isDebugEnabled()) {
+			logger.debug("路由管理");
+		}
+		return super.toManage(model, false, RESULT_BASE_URI);
+	}
+
+	@RequestMapping(value = "/backToManage.do", method = RequestMethod.GET)
+	public String backToManage(Model model) {
+		return super.toManage(model, true, RESULT_BASE_URI);
+	}
+
+	@RequestMapping(value = "/qry.do", method = RequestMethod.POST)
+	@QryMethod
+	public @ResponseBody AjaxResult qry(int pageNum, int pageSize) {
+		if (logger.isDebugEnabled()) {
+			logger.debug("qry txnRouting started...");
+		}
+		ITxnRoutingService routService = this.getDBService(ITxnRoutingService.class);
+		Pager<TxnRouting_Mapping> p = routService.selectByPage(pageNum, pageSize, this.getQryParamMap());
+		return commonBO.buildSuccResp(BMConstants.PAGER_RESULT,
+				commonBO.transferPager(p, BMConstants.PAGE_TXN_ROUTING_MAPPING, ENTITY_TRANSFER));
+	}
+
+	@RequestMapping(value = "/add.do", method = RequestMethod.GET)
+	public String add(Model model) {
+		return super.toAdd(model, RESULT_BASE_URI);
+	}
+
+	@RequestMapping(value = "/add/submit.do", method = RequestMethod.POST)
+	public @ResponseBody AjaxResult addSubmit(TxnRouting txnRouting) {// ,
+																		// String
+																		// chnlId1,
+																		// String
+																		// chnlId2,
+																		// String
+																		// chnlId3
+		AssertUtil.objIsNull(txnRouting, "txnRouting is null.");
+		// AssertUtil.strIsBlank(chnlId1, "chnlId1 is blank.");
+		// payType预留暂不支持页面录入
+		// routInfo.setPayType("*");
+		ITxnRoutingService routService = this.getDBService(ITxnRoutingService.class);
+		TxnRouting dbEntity = routService.selectByPrimaryKey(txnRouting);
+		AssertUtil.objIsNotNull(dbEntity, "主键冲突，路由信息已存在");
+
+		/*
+		 * StringBuilder chnlIds = new StringBuilder(chnlId1); if
+		 * (!StringUtil.isBlank(chnlId2) && !chnlId2.equals(chnlId1)) {
+		 * chnlIds.append(",").append(chnlId2); } if
+		 * (!StringUtil.isBlank(chnlId3) && !chnlId3.equals(chnlId1) &&
+		 * !chnlId3.equals(chnlId2)) { chnlIds.append(",").append(chnlId3); }
+		 * routInfo.setChnlIds(chnlIds.toString());
+		 */
+		busCheckBO.newTask(BusCheckTaskEnums.TaskTp._03, this.getSessionUsrId(), CommonEnums.OpType.ADD, "新增路由信息",
+				txnRouting);
+		this.logObj(BmEnums.FuncInfo._2000020000.getDesc(), CommonEnums.OpType.ADD_REQUEST, txnRouting);
+		return commonBO.buildSuccResp();
+	}
+
+	@RequestMapping(value = "/edit.do", method = RequestMethod.GET)
+	public String edit(Model model, String intTransCd, String mchntCd, String chnlId, String chnlMchntCd) {
+		ITxnRoutingService routService = this.getDBService(ITxnRoutingService.class);
+		TxnRoutingKey key = new TxnRoutingKey();
+		key.setChnlId(chnlId);
+		key.setChnlMchntCd(chnlMchntCd);
+		key.setIntTransCd(intTransCd);
+		key.setMchntCd(mchntCd);
+		TxnRouting entity = routService.selectByPrimaryKey(key);
+		AssertUtil.objIsNull(entity, "未找到路由信息");
+		model.addAttribute(BMConstants.ENTITY_RESULT,
+				commonBO.transferEntity(entity, BMConstants.PAGE_TXN_ROUTING, ENTITY_TRANSFER));
+
+		return super.toEdit(model, RESULT_BASE_URI);
+	}
+
+	@RequestMapping(value = "/edit/submit.do", method = RequestMethod.POST)
+	public @ResponseBody AjaxResult editSubmit(Model model, TxnRouting tr) {
+		AssertUtil.objIsNull(tr, "routInfo is null.");
+
+		tr.setLastOperId(this.getSessionUsrId());
+		busCheckBO.newTask(BusCheckTaskEnums.TaskTp._03, this.getSessionUsrId(), CommonEnums.OpType.UPDATE, "修改路由信息",
+				tr);
+		this.logObj(BmEnums.FuncInfo._2000020000.getDesc(), CommonEnums.OpType.UPDATE_REQUEST, tr);
+		return commonBO.buildSuccResp();
+	}
+
+	@RequestMapping(value = "/delete.do", method = RequestMethod.POST)
+	public @ResponseBody AjaxResult delete(String mchntCd, String intTransCd, String chnlId, String chnlMchntCd) {
+		ITxnRoutingService routService = this.getDBService(ITxnRoutingService.class);
+		TxnRoutingKey key = new TxnRoutingKey();
+		key.setChnlId(chnlId);
+		key.setChnlMchntCd(chnlMchntCd);
+		key.setIntTransCd(intTransCd);
+		key.setMchntCd(mchntCd);
+		TxnRouting dbEntity = routService.selectByPrimaryKey(key);
+		AssertUtil.objIsNull(dbEntity, "未找到路由信息");
+		busCheckBO.newTask(BusCheckTaskEnums.TaskTp._03, this.getSessionUsrId(), CommonEnums.OpType.DELETE, "删除路由信息",
+				dbEntity);
+		this.logObj(BmEnums.FuncInfo._2000020000.getDesc(), CommonEnums.OpType.DELETE_REQUEST, dbEntity);
+		return commonBO.buildSuccResp();
+	}
+}

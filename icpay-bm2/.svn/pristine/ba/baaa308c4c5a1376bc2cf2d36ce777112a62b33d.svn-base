@@ -1,0 +1,164 @@
+<#include "/common/add_macro.ftl" />
+<#assign label = "渠道虚拟商户信息">
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+	<head>
+		<@head label="${label}" base="virtualTerm">
+			$("#mchntCdInpt").validatebox({
+				required: true,
+				novalidate: true,
+				validType: ['characters','maxLength[20]']
+			});
+			$("#chnlMchntNmInpt").validatebox({
+				required: true,
+				novalidate: true,
+				validType: ['maxLength[100]']
+			});
+			$("#termIdInpt").validatebox({
+				required: true,
+				novalidate: true,
+				validType: ['characters','maxLength[20]']
+			});
+			$("#feeRateInpt").validatebox({
+				novalidate: true,
+				required: true,
+				validType: ['rate','maxLength[7]']
+			});
+			$("#dailyLimitInpt").validatebox({
+				novalidate: true,
+				validType: ['amount','maxLength[15]']
+			});
+			$("#commentInpt").validatebox({
+				validType: ['maxLength[256]']
+			});
+		</@head>
+	</head>
+	
+	<body>
+		<@addDiv label="${label}" addUrl="/virtualTerm/add/submit.do">
+			<table class="edit_tbl" cellpadding="0" cellspacing="0">
+				<tr>
+					<td class="label">渠道：</td>
+					<td class="content">
+						<select id="chnlIdSel" name="chnlId">
+							<@enumOpts enumNm='TxnEnums.ChnlId' showEmptyOpt='false' showCode="true" />
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td class="label">币别：</td>
+					<td class="content">
+						<select name="currCd" id="currCd">
+								<@enumOpts enumNm="CurrencyEnums.CurrType" showEmptyOpt="false" showCode="true" />
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td class="label">渠道商户代码：</td>
+					<td class="content">
+						<input class="easyui-validatebox" type="text" maxlength="40"
+							id="chnlMchntCdInpt" name="chnlMchntCd" />
+					</td>
+				</tr>
+				<tr>
+					<td class="label">渠道商户名称：</td>
+					<td class="content">
+						<input class="easyui-validatebox" type="text" maxlength="100"
+							id="chnlMchntDescInpt" name="chnlMchntDesc" />
+					</td>
+				</tr>
+				<#--  
+				<tr>
+					<td class="label">结算方式：</td>
+					<td class="content">
+						<select id="settlePeriod" name="settlePeriod" data-options="editable:false">
+							<option value="9">支持D0</option>
+							<option value="0">支持T0</option>
+							<option value="1">支持T1</option>
+							<option value="2">支持T2</option>
+							<option value="3">支持T3</option>
+						</select>
+					</td>
+				</tr>
+				-->
+				<tr>
+					<td class="label">结算方式：</td>
+					<td class="content">
+						<select id="settlePeriodSel" name="settlePeriod" data-options="editable:false">
+							<@enumOpts enumNm='SettleEnums.SettlePeriod' selected="entity.settlePeriod!''" showEmptyOpt='false' showCode="false" />
+						</select>
+					</td>					
+				</tr>				
+				<tr id="balanceTransferTr">
+					<td class="label">自动D0余额结转：</td>
+					<td class="content">
+						<select class="easyui-validatebox" id="balanceTransferSel" name="balanceTransfer" style="width: 300px;">
+							<option value="1">是</option>
+							<option value="0">否</option>
+						</select>
+					</td>
+				</tr>
+				<tr id="transferTimeTr">
+					<td class="label">D0余额结转时间：</td>
+					<td class="content">
+						<input class="easyui-validatebox" type ="text" id="transferTimeInpt" name ="transferTime"/>
+						<span class="inputDesc">格式HHmmss，例如：235000(可省略，使用默认值)</span>
+					</td>
+				</tr>
+				
+				
+				<tr id="balanceTransferT1Tr">
+					<td class="label">自动T1余额结转反还：</td>
+					<td class="content">
+						<select class="easyui-validatebox" id="balanceTransferT1Sel" name="balanceTransferT1" style="width: 300px;">
+							<option value="1">是</option>
+							<option value="0">否</option>
+						</select>
+					</td>
+				</tr>
+				<tr id="transferTimeT1Tr">
+					<td class="label">T1余额结转时间：</td>
+					<td class="content">
+						<input class="easyui-validatebox" type ="text" id="transferTimeT1Inpt" name ="transferTimeT1"/>
+						<span class="inputDesc">格式HHmmss，例如：163000(可省略，使用默认值)</span>
+					</td>
+				</tr>
+				
+				<tr id="transferModeTr">
+					<td class="label">T1余额结转模式：</td>
+					<td class="content">
+						<select class="easyui-validatebox" id="transferModeSel" name="transferMode" style="width: 300px;">
+							<option value="0">默认模式</option>
+							<option value="1">A/B商户</option>
+						</select>
+					</td>
+				</tr>
+				
+				<tr id="mchntSuffixTr">
+					<td class="label">B商户后坠名：</td>
+					<td class="content">
+						<input class="easyui-validatebox" type ="text" id="mchntSuffixInpt" name ="mchntSuffix"/>
+						<span class="inputDesc">例如：$b (可省略，表示默认值)</span>
+					</td>
+				</tr>
+				
+				<tr>
+					<td class="label">状态：</td>
+					<td class="content">
+						<select id="state" name="state" data-options="editable:false">
+							<option value="0">无效</option>
+							<option value="1">有效</option>
+						</select>
+					</td>
+				</tr>
+				
+				<tr>
+					<td class="label">备注：</td>
+					<td class="content">
+						<input class="easyui-validatebox" type ="text" id="commentInpt" name ="comment"/>
+					</td>
+				</tr>
+			</table>
+		</@addDiv>
+	</body>
+</html>

@@ -1,0 +1,10 @@
+#\u6e20\u9053\u670d\u52a1\u5730\u5740
+com.icpay.payment.service.ChnlMerAccService=${com.icpay.payment.service.ChnlMerAccService}
+#com.icpay.payment.service.ChannelService=${com.icpay.payment.service.ChannelService}
+com.icpay.payment.service.MerAccService=${com.icpay.payment.service.MerAccService}
+com.icpay.payment.service.FileService=${com.icpay.payment.service.FileService}
+com.icpay.payment.service.TxnStateService=${com.icpay.payment.service.TxnStateService}
+com.icpay.payment.service.InternalGatewayService=${com.icpay.payment.service.InternalGatewayService}
+com.icpay.payment.service.MerParamsService=${com.icpay.payment.service.MerParamsService}
+com.icpay.payment.service.CommonSecService=${com.icpay.payment.service.CommonSecService}
+com.icpay.payment.common.data.svc.ProfitWithdrawService=${com.icpay.payment.common.data.svc.ProfitWithdrawService}

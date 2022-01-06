@@ -1,0 +1,64 @@
+################################
+#   log4j.properties
+################################
+log4j.rootLogger=DEBUG,Publish,STDOUT,all,warn
+home.dir=/home/ppay
+log4j.appender.file.path=/home/ppay/icpay/logs/icpay-bm2/
+log4j.logger.com.icpay.payment=DEBUG
+
+###############################
+# log4j.appender.Publish config
+
+log4j.appender.Publish.nodeId=ll.bm.icpay-bm2
+log4j.appender.Publish.tags=PROD;BM
+
+###############################
+# Ons MQ config
+
+logPublisher.GROUP_ID=GID_PUB_LOG
+logPublisher.topic=TOPIC_PUB_LOG
+logPublisher.tags=prod
+
+seriLogCommiter.GROUP_ID=GID_PUB_LOG
+seriLogCommiter.topic=TOPIC_PUB_LOG
+seriLogCommiter.tags=
+seriLogCommiter.SeriLogUrl=https://tr.power-gateway.com:23443/
+seriLogCommiter.SeriLogApiKey=
+seriLogCommiter.SeriLogConsolePattern=[{Timestamp} {Level}] {Message} ({Operation}){NewLine}{Exception}
+#seriLogCommiter.SeriLogRollingFileName=seriLog-test-{Date}.log
+seriLogCommiter.SeriLogRollingFileName=
+
+################################################
+
+super_user_id=pay_admin
+
+db_service_urls=http://batch.pay.svc.pri:8080/icpay-db-service
+
+terminal_import_file_path=/home/ppay/icpay/icpay-bm2/terminal_import/
+terminal_export_file_path=/home/ppay/icpay/icpay-bm2/terminal_export/
+terminal_export_max_size=1000
+
+mchnt_import_file_path=/home/ppay/icpay/icpay-bm2/mchnt_import/
+mchnt_import_file_charset=GBK
+
+#com.icpay.payment.service.ChnlMerAccService=sr1.pay.svc.pri:9999,sr2.pay.svc.pri:9999,sr3.pay.svc.pri:9999
+com.icpay.payment.service.ChnlMerAccService=tc1.pay.svc.pri:9999,tc2.pay.svc.pri:9999,tc3.pay.svc.pri:9999
+com.icpay.payment.service.MerAccService=sr1.pay.svc.pri:9999,sr2.pay.svc.pri:9999,sr3.pay.svc.pri:9999
+#com.icpay.payment.service.ChannelService=tc1.pay.svc.pri:9998,tc2.pay.svc.pri:9998,tc3.pay.svc.pri:9998
+com.icpay.payment.service.FileService=batch.pay.svc.pri:9999
+com.icpay.payment.service.MerParamsService=batch.pay.svc.pri:9999
+com.icpay.payment.service.CommonSecService=batch.pay.svc.pri:9999
+com.icpay.payment.service.TxnStateService=tc1.pay.svc.pri:9999,tc2.pay.svc.pri:9999,tc3.pay.svc.pri:9999
+com.icpay.payment.service.InternalGatewayService=tc1.pay.svc.pri:9999,tc2.pay.svc.pri:9999,tc3.pay.svc.pri:9999
+com.icpay.payment.common.data.svc.ProfitWithdrawService=batch.pay.svc.pri:9999
+
+#order export url   prod
+downUrl.TransLogDown=https://mngr.lelipay.com:9143/lelipay-bm/upload/exportTransLog
+downUrl.WithdrawLogDown=https://mngr.lelipay.com:9143/lelipay-bm/upload/exportWithdrawLog
+
+batch_runTask_url=http://batch.pay.svc.pri:9000/icpay-batch/runTask.do
+loginTitle=\u4E50\u529B\u4ED8
+
+transLog_export_file_path=/home/ppay/icpay/icpay-bm2/trans_export/
+
+pay_name=lelipay

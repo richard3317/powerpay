@@ -1,0 +1,15 @@
+com.icpay.payment.bm.bo
+com.icpay.payment.bm.cache
+com.icpay.payment.bm.constants
+com.icpay.payment.bm.entity
+com.icpay.payment.bm.quartz.job
+com.icpay.payment.bm.web.controller
+com.icpay.payment.bm.web.controller.business
+com.icpay.payment.bm.web.controller.system
+com.icpay.payment.bm.web.filter
+com.icpay.payment.bm.web.freemarker.directive
+com.icpay.payment.bm.web.interceptor
+com.icpay.payment.bm.web.servlet
+com.icpay.payment.bm.web.util
+com.icpay.payment.bm.web.util.telegram
+com.icpay.payment.service.listener
