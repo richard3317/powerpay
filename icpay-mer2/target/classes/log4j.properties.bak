@@ -1,0 +1,63 @@
+#root logger
+log4j.rootLogger=INFO,STDOUT,PAY_INFO,PAY_ERROR,PAY_WARN
+
+#console appender
+log4j.appender.STDOUT=org.apache.log4j.ConsoleAppender
+log4j.appender.STDOUT.Threshold=DEBUG
+log4j.appender.STDOUT.ImmediateFlush=true
+log4j.appender.STDOUT.layout=org.apache.log4j.PatternLayout
+log4j.appender.STDOUT.layout.ConversionPattern=%d [%-5p] %c#%M(%L) - %m%n
+
+#debug appender
+log4j.appender.PAY_DEBUG=org.apache.log4j.DailyRollingFileAppender
+log4j.appender.PAY_DEBUG.Threshold=DEBUG
+#log4j.appender.PAY_DEBUG.ImmediateFlush=true
+log4j.appender.PAY_DEBUG.DatePattern='.'yyyy-MM-dd
+log4j.appender.PAY_DEBUG.File=C:\\Users\\USER/icpay/logs/icpay-mer/app-debug.log
+log4j.appender.PAY_DEBUG.encoding=UTF-8
+log4j.appender.PAY_DEBUG.layout=org.apache.log4j.PatternLayout
+log4j.appender.PAY_DEBUG.layout.ConversionPattern=%c %d{ISO8601}-- %p -- %m%n
+
+#info appender
+log4j.appender.PAY_INFO=org.apache.log4j.DailyRollingFileAppender
+log4j.appender.PAY_INFO.Threshold=INFO
+#log4j.appender.PAY_INFO.ImmediateFlush=true
+log4j.appender.PAY_INFO.DatePattern='.'yyyy-MM-dd
+log4j.appender.PAY_INFO.File=C:\\Users\\USER/icpay/logs/icpay-mer/app-info.log
+log4j.appender.PAY_INFO.encoding=UTF-8
+log4j.appender.PAY_INFO.layout=org.apache.log4j.PatternLayout
+log4j.appender.PAY_INFO.layout.ConversionPattern=%c %d{ISO8601}-- %p -- %m%n
+
+#error appender
+log4j.appender.PAY_ERROR=org.apache.log4j.DailyRollingFileAppender
+log4j.appender.PAY_ERROR.Threshold=ERROR
+#log4j.appender.PAY_ERROR.ImmediateFlush=true
+log4j.appender.PAY_ERROR.DatePattern='.'yyyy-MM-dd
+log4j.appender.PAY_ERROR.File=C:\\Users\\USER/icpay/logs/icpay-mer/app-error.log
+log4j.appender.PAY_ERROR.encoding=UTF-8
+log4j.appender.PAY_ERROR.layout=org.apache.log4j.PatternLayout
+log4j.appender.PAY_ERROR.layout.ConversionPattern=%c %d{ISO8601}-- %p -- %m%n
+
+#warn appender
+log4j.appender.PAY_WARN=org.apache.log4j.DailyRollingFileAppender
+log4j.appender.PAY_WARN.Threshold=WARN
+#log4j.appender.PAY_WARN.ImmediateFlush=true
+log4j.appender.PAY_WARN.DatePattern='.'yyyy-MM-dd
+log4j.appender.PAY_WARN.File=C:\\Users\\USER/icpay/logs/icpay-mer/app-warn.log
+log4j.appender.PAY_WARN.encoding=UTF-8
+log4j.appender.PAY_WARN.layout=org.apache.log4j.PatternLayout
+log4j.appender.PAY_WARN.layout.ConversionPattern=%c %d{ISO8601}-- %p -- %m%n
+
+#System Init
+log4j.appender.SystemStartup=org.apache.log4j.DailyRollingFileAppender
+log4j.appender.SystemStartup.DatePattern='.'yyyy-MM-dd
+log4j.appender.SystemStartup.File=C:\\Users\\USER/icpay/logs/icpay-mer/SystemStartup.log
+log4j.appender.SystemStartup.encoding=UTF-8
+log4j.appender.SystemStartup.layout=org.apache.log4j.PatternLayout
+log4j.appender.SystemStartup.layout.ConversionPattern=%d [%t] %p - %m%n
+
+#org.springframework.test
+log4j.logger.org.springframework.test=DEBUG
+log4j.logger.org.apache.zookeeper.ZooKeeper=ERROR
+
+log4j.logger.com.icpay.payment=DEBUG

@@ -1,0 +1,49 @@
+<html>
+    <head>
+        <script src="./crypto-js/md5.js"></script>
+        <script src="./moment-with-locales.js"></script>
+        <script>
+
+    function fn2(){
+        var passwd = document.getElementById("passwd").value;
+        var datetime = getTimestamp();
+        var hashPasswd= passwdHash(passwd, datetime);
+        alert("passwd="+passwd+", datetime="+datetime+", hash="+hashPasswd);
+    }
+
+    function getTimestamp(){
+        var now = new Date();
+        return moment(now).format('YYYYMMDDHHmmss');
+    }
+
+    function passwdHash(passwd, timestamp){
+        var pwdmd5 =  CryptoJS.MD5((passwd+"PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP").substring(0, 50));
+        return CryptoJS.MD5(timestamp+"+PPAY_2018_MER+"+pwdmd5);
+    }
+
+    function fn()
+    {
+        var reader = new FileReader();
+        reader.onloadend=function(){
+         text = (reader.result);
+         reader.readAsBinaryString(document.getElementById("files").files[0]);
+           var hash1 = CryptoJS.MD5(text);
+            console.log("hash1="+hash1.toString());
+
+        }
+        var hash = CryptoJS.MD5("Message");
+        //console.log("hash=" + hash.toString()); 
+        alert("hash=" + hash.toString());
+
+    }
+     </script>
+  </head>
+  <body>
+    <form name="myform" id="myform" method="post" action="" enctype="multipart/form-data">
+      <input type="text" name="passwd" id="passwd" />
+      <!-- <input type="file" name="files" id="files"> -->
+      <input type="submit" onclick="fn2()">
+    </form>
+  </body>
+
+</html>

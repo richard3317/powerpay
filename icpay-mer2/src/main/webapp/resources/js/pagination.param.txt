@@ -1,0 +1,14 @@
+
+参数名	描述	参数值
+maxentries	总条目数	必选参数，整数
+items_per_page	每页显示的条目数	可选参数，默认是10
+num_display_entries	连续分页主体部分显示的分页条目数	可选参数，默认是10
+current_page	当前选中的页面	可选参数，默认是0，表示第1页
+num_edge_entries	两侧显示的首尾分页的条目数	可选参数，默认是0
+link_to	分页的链接	字符串，可选参数，默认是"#"
+prev_text	“前一页”分页按钮上显示的文字	字符串参数，可选，默认是"Prev"
+next_text	“下一页”分页按钮上显示的文字	字符串参数，可选，默认是"Next"
+ellipse_text	省略的页数用什么文字表示	可选字符串参数，默认是"..."
+prev_show_always	是否显示“前一页”分页按钮	布尔型，可选参数，默认为true，即显示“前一页”按钮
+next_show_always	是否显示“下一页”分页按钮	布尔型，可选参数，默认为true，即显示“下一页”按钮
+callback	回调函数	默认无执行效果

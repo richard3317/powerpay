@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE urlrewrite PUBLIC "-//tuckey.org//DTD UrlRewrite 3.2//EN" "\\urlrewrite3.2.dtd">
+  
+<urlrewrite>
+    <rule>
+    <note>i18n语言选择</note>
+    <note>/i18n/[language]</note>
+    <from>/i18n/([A-Za-z0-9\-_]+)</from>
+    <to type="forward">/?lan=$1</to>
+  </rule>
+
+</urlrewrite>
