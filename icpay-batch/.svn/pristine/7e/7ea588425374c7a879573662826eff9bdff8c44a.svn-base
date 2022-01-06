@@ -1,5 +1,0 @@
-#\u8D26\u6237\u670D\u52A1\u5730\u5740\uFF0C\u591A\u673A\u9017\u53F7\u5206\u9694
-com.icpay.payment.service.MerAccService=${com.icpay.payment.service.MerAccService}
-com.icpay.payment.service.ChnlMerAccService=${com.icpay.payment.service.ChnlMerAccService}
-com.icpay.payment.service.IcpaySecService=${com.icpay.payment.service.IcpaySecService}
-com.icpay.payment.service.InternalGatewayService=${com.icpay.payment.service.InternalGatewayService}
